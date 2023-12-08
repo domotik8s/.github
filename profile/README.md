@@ -4,7 +4,7 @@ _A modern plartform for home automation_
 The name "DomotiK8s" comes from the word "domotics" ([Wikipedia](https://en.m.wiktionary.org/wiki/domotics)) which basically means "home automation" and "K8s" which is short for [Kubernetes](https://kubernetes.io). Hence, DomotiK8s is a home automation platform built on top of Kubernetes which enables us to make use of some unique advantages when compared to solutions that where built from scratch.
 
 ## Why Kubernetes?
-Kubernetes has evolved to a powerful orchestration engine that can be used to automate pretty much anything. As such, the platform already as much of the plumbing that is useful and any application. We leverage these machanisms reusing what already exists. Therefore, we spend less time reinventing the wheel.
+Kubernetes has evolved to a powerful orchestration engine that can be used to automate pretty much anything. As such, the platform already as much of the plumbing that is useful and any application. We leverage these machanisms reusing what already exists. Therefore, we spend less time reinventing the wheel. Examples include authentication and authorization, inter-process communication, load-balancing, distributed database, role-based access control and many more. In addition, K8s is a great platform to run additional supporting services on such as a web-based code editor, VPN services, file sharing (smb, etc) or anything else.
 
 ## DomotiK8s Principles
 DomotiK8s' goal is not only to bring home automation onto Kubernetes. Much more importantly, we strive to add significant improvements when compared to other home automation applications such as HomeAssitant or OpenHAB. The main principles and goals include the following:
