@@ -11,4 +11,4 @@ DomotiK8s' goal is not only to bring home automation onto Kubernetes. Much more 
 
 1. **Multi-User Home**: We understand that most homes aren't inhabited by a single person. While many users will use a home automation platform, the same level of access should not be granted to everybody. The admin should have a different level of access than kids, temporary guests or other parties. We implement strong role-based access control that allows granular access control.
 2. **High Availability**: Many users reliy heavily on their home automation platform. All the more does an outage of the server that runs is impact the daily life. DomotiK8s can be installed very slimly as a single instance or scaled to multiple redundant instances potentially spread across the house to maximize resiliency.
-3. 
+3. **Dynamic Homes**: A home is a dynamic place that changes over time. Devices come and go, rooms are repurposed permanently or temporarily. This is especially a challenge for automations. DomotiK8s 
