@@ -53,25 +53,16 @@ kind: Light
 metadata:
   name: kitchen-light
 spec:
-  connection:
-    type: "knx"
-    system: "knx"
-    config:
-      power:
-        read: "1/2/3"
-        write: "1/2/4"
-      brightness:
-        read: "1/2/5"
-        write: "1/2/6"
-  capabilities:
+  connection: ... # Same as above
+  capabilities: # Discovered device capabilities
     power: true
     brightness: true
     color: false
-  state:
+  state: # Desired state initialized with the current state
     power: false
     brightness: 0
 status:
-  state:
+  state: # Current state of the device
     power: false
     brightness: 0
   lastUpdated: "2023-12-08T18:00:00Z"
