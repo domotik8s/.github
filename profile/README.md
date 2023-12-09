@@ -28,11 +28,6 @@ apiVersion: domotik8s.io/v1beta1
 kind: Light
 metadata:
   name: example-light
-  labels:
-    area: "House"
-    floor: "GroundFloor"
-    room: "DiningRoom"
-    name: "TableLight"
 spec:
   connection:
     type: "knx"
@@ -57,11 +52,6 @@ apiVersion: domotik8s.io/v1beta1
 kind: Light
 metadata:
   name: kitchen-light
-  labels:
-    area: "House"
-    floor: "GroundFloor"
-    room: "DiningRoom"
-    name: "TableLight"
 spec:
   connection:
     type: "knx"
