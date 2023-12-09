@@ -17,3 +17,78 @@ The aim of DomotiK8s is not merely to integrate home automation with Kubernetes.
 6. **Reuse Of Existing Solutions**: DomotiK8s will not try and reinvent the wheel. Almost nothing of what home automation does is so unique that it justifies duplication of work. As examples, we will never build our own way to store timeseries data when there are solutions such as Prometheus. We will never build out own automation engine when there are solutions such as NodeRED, and so on, and so on.
 
 This revision corrects spelling and grammar errors and improves the clarity of the original text.
+
+# Usage Example
+
+## Creating & Switching A Light
+1. Define and create a `Light` device
+**example-light.yaml**
+```yaml
+apiVersion: domotik8s.io/v1beta1
+kind: Light
+metadata:
+  name: example-light
+  labels:
+    area: "House"
+    floor: "GroundFloor"
+    room: "DiningRoom"
+    name: "TableLight"
+spec:
+  connection:
+    type: "knx"
+    config:
+      power:
+        read: "1/2/3"
+        write: "1/2/4"
+      brightness:
+        read: "1/2/5"
+        write: "1/2/6"
+```
+```bash
+$ kubectl apply -f example-light.yaml
+```
+
+2. Check discovered device capabilities and state
+```bash
+$ kubectl get light example-light -o yaml
+```
+```yaml
+apiVersion: domotik8s.io/v1beta1
+kind: Light
+metadata:
+  name: kitchen-light
+  labels:
+    area: "House"
+    floor: "GroundFloor"
+    room: "DiningRoom"
+    name: "TableLight"
+spec:
+  connection:
+    type: "knx"
+    system: "knx"
+    config:
+      power:
+        read: "1/2/3"
+        write: "1/2/4"
+      brightness:
+        read: "1/2/5"
+        write: "1/2/6"
+  capabilities:
+    power: true
+    brightness: true
+    color: false
+  state:
+    power: false
+    brightness: 0
+status:
+  state:
+    power: false
+    brightness: 0
+  lastUpdated: "2023-12-08T18:00:00Z"
+```
+
+3. Turn the `Light` on
+```bash
+kubectl patch light example-light --type=merge -p '{"spec": {"state": {"power": true}}}'
+```
+Admittedly, patching Kubernetes resources like this is not very convenient. Yet, you will rarely - if ever - manipulate a device state on the command line like this. We could think about developing a kubectl extension to make this smoother if we find users want it.
