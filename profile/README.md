@@ -16,60 +16,80 @@ The aim of DomotiK8s is not merely to integrate home automation with Kubernetes.
 5. **GitOps**: Moving away from the trend of UI-based setups and configurations seen in established solutions, DomotiK8s reintroduces file-based configuration. In case of system loss or corruption, instead of starting from scratch, users can securely store their configuration work in a Git repository or as plain-text files for easy backup and recovery.
 6. **Reuse Of Existing Solutions**: DomotiK8s will not try and reinvent the wheel. Almost nothing of what home automation does is so unique that it justifies duplication of work. As examples, we will never build our own way to store timeseries data when there are solutions such as Prometheus. We will never build out own automation engine when there are solutions such as NodeRED, and so on, and so on.
 
-This revision corrects spelling and grammar errors and improves the clarity of the original text.
+# What Does That Look Like?
 
-# Usage Example
+Controllering your smart home from Kubernetes works by Customer Resource Definitions (CRDs) that DomotiK8s adds to your Kubernetes. As an example, let's take a look at the `Light` resource when used with KNX:
 
-## Creating & Switching A Light
 1. Define and create a `Light` device
-**example-light.yaml**
+**office-main-light.yaml**
 ```yaml
 apiVersion: domotik8s.io/v1beta1
 kind: Light
 metadata:
-  name: example-light
+  name: office-main-light
+  labels:
+    area: "House"
+    floor: "FirstFloor"
+    room: "Office"
+    name: "CeilingLight"
 spec:
   connection:
-    type: "knx"
+    system: "knx"
     config:
       power:
-        read: "1/2/3"
-        write: "1/2/4"
-      brightness:
-        read: "1/2/5"
-        write: "1/2/6"
+        read: "0/1/15"
+        write: "0/1/14"
+        dpt: "1.001"
+  enforce: true
 ```
 ```bash
 $ kubectl apply -f example-light.yaml
 ```
 
-2. Check discovered device capabilities and state
+2. Verify the light was created
 ```bash
-$ kubectl get light example-light -o yaml
-```
-```yaml
-apiVersion: domotik8s.io/v1beta1
-kind: Light
-metadata:
-  name: kitchen-light
-spec:
-  connection: ... # Same as above
-  capabilities: # Discovered device capabilities
-    power: true
-    brightness: true
-    color: false
-  state: # Desired state initialized with the current state
-    power: false
-    brightness: 0
-status:
-  state: # Current state of the device
-    power: false
-    brightness: 0
-  lastUpdated: "2023-12-08T18:00:00Z"
+$ kubectl get lights
+NAME                AGE
+office-main-light   2s
 ```
 
-3. Turn the `Light` on
+3. Have a look at the details
 ```bash
-kubectl patch light example-light --type=merge -p '{"spec": {"state": {"power": true}}}'
+$ kubectl describe light office-main-light
+Name:         office-main-light
+Namespace:
+Labels:       area=House
+              floor=FirstFloor
+              name=CeilingLight
+              room=Office
+Annotations:  <none>
+API Version:  domotik8s.io/v1beta1
+Kind:         Light
+Metadata: ...
+Spec:
+  Capabilities:
+    Brightness:  false
+    Color:       false
+    Power:       true
+  Connection:
+    Config:
+      Power:
+        Dpt:    1.001
+        Read:   0/1/15
+        Write:  0/1/14
+    System:     knx
+  Enforce:      false
+  State:
+    Power:  false
+Status:
+  Last Updated:  2023-12-11T20:21:40.512763+01:00
+  State:
+    Power:  false
+Events:     <none>
+```
+
+4. Turn the `Light` on
+```bash
+kubectl patch light office-main-light --type=merge -p '{"spec": {"state": {"power": true}}}'
 ```
 Admittedly, patching Kubernetes resources like this is not very convenient. Yet, you will rarely - if ever - manipulate a device state on the command line like this. We could think about developing a kubectl extension to make this smoother if we find users want it.
