@@ -21,6 +21,7 @@ The aim of DomotiK8s is not merely to integrate home automation with Kubernetes.
 Controllering your smart home from Kubernetes works by Customer Resource Definitions (CRDs) that DomotiK8s adds to your Kubernetes. As an example, let's take a look at the `Light` resource when used with KNX:
 
 1. Define and create a `Light` device
+   
 **office-main-light.yaml**
 ```yaml
 apiVersion: domotik8s.io/v1beta1
