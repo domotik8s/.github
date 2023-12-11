@@ -6,6 +6,9 @@ The name "DomotiK8s" is derived from "domotics" ([Wikipedia](https://en.m.wiktio
 ## Motivation - Why Kubernetes?
 Kubernetes has developed into a potent orchestration engine capable of automating a wide array of tasks. This platform already includes many essential features beneficial for any application. We take advantage of these mechanisms by reusing what already exists, avoiding the need to reinvent the wheel. Examples include authentication, authorization, inter-process communication, an extensible CRUD API, load balancing, distributed database management, role-based access control, and more. Additionally, K8s is an excellent platform for running supplementary services like web-based code editors, VPN services, file sharing (such as SMB), configuration management systems to support GitOps and others. The Kubernetes ecosystem offers a vast array of components that already exist and only wait to be leveraged for home automation.
 
+Here is another example: Home automation systems require strong and flexible automation engines do to complex things. While Kubernetes can get the "current state" to the "desired state", it doesn't have any inherent mechanisms to define that "desired state" based on complex rules (date, time, sun events, brightness, presence, temperature, average values of a sensor over time, etc, etc). Instead of implementing this in DomotiK8s, we rely on an established solution called [NodeRED](https://nodered.org/) which is already [integrated with Kubernetes](https://flows.nodered.org/node/node-red-contrib-kubernetes-client-ubos).
+
+
 ## Principles & Goals
 The aim of DomotiK8s is not merely to integrate home automation with Kubernetes. More importantly, we aim to introduce substantial improvements over other home automation applications, such as Home Assistant or OpenHAB. Our main principles and goals include:
 
